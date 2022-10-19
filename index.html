@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #e6d8e7;
+      background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239800a1' fill-opacity='0.22'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      display: flex;
+      flex-flow: column;
+      height: 90vh;
+      align-items: center;
+      justify-content: center;
+      gap:5px;
+    }
+    #error{
+      color:black;
+      font-size: 23px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <img src="#">
+  <input type="text" name="why" id="why" maxlength="25">
+  <div id="error"></div>
+
+  <script>
+  const img = document.querySelector('img');
+  fetch('https://api.giphy.com/v1/gifs/translate?api_key=3A0ySj1Z8VIuT6BdhS42fhXVC2jm3Px5&s=cats', {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      img.src = response.data.images.original.url;
+    })
+    .catch(e => {
+      console.log(e)
+    })
+
+    const why= document.getElementById('why');
+    if(why)
+    {
+    document.getElementById("why").addEventListener('change', doThing);
+    }
+    const error= document.getElementById('error');
+/* function */
+function doThing(){
+  fetch( `https://api.giphy.com/v1/gifs/translate?api_key=3A0ySj1Z8VIuT6BdhS42fhXVC2jm3Px5&s=${this.value}`, {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+     img.src = response.data.images.downsized.url;
+     error.innerHTML='';
+    })
+    .catch(e => {
+      
+      error.innerHTML='Invalid bro. Be smarter.';
+      body.appendChild(error)
+  
+    })
+}
+    function refresh(){
+      fetch('https://api.giphy.com/v1/gifs/translate?api_key=3A0ySj1Z8VIuT6BdhS42fhXVC2jm3Px5&s=cats', {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+     console.log(response);
+     img.src = response.data.images.downsized.url;
+    })
+    .catch(e => {
+      console.log(e)
+    })
+  }
+
+  </script>
+</body>
+</html>
